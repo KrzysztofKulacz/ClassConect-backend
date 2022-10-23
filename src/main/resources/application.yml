@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    active: production
+server:
+  error:
+    include-message: always
+    include-binding-errors: always
+    include-stacktrace: on_param
+
