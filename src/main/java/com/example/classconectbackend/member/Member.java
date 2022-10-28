@@ -1,5 +1,7 @@
-package com.example.classconectbackend.domain;
+package com.example.classconectbackend.member;
 
+import com.example.classconectbackend.squad.Squad;
+import com.example.classconectbackend.post.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
@@ -9,8 +11,8 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "user1")
-public class User {
+@Table(name = "member")
+public class Member {
 
     @Id
     @Column(name = "id")
@@ -43,21 +45,20 @@ public class User {
 
     @Column(name = "groups")
     @ManyToMany
-    private List<Group> groups = new ArrayList<>();
+    private List<Squad> squads = new ArrayList<>();
 
-    //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "posts")
     @OneToMany(
-            mappedBy = "user1",
+            mappedBy = "member",
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER
     )
     private List<Post> posts = new ArrayList<>();
 
-    public User() {}
+    public Member() {}
 
     @Autowired
-    public User(String username, String password, String email) {
+    public Member(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -135,12 +136,12 @@ public class User {
         this.authorities = authorities;
     }
 
-    public List<Group> getGroups() {
-        return groups;
+    public List<Squad> getGroups() {
+        return squads;
     }
 
-    public void setGroups(List<Group> groups) {
-        this.groups = groups;
+    public void setGroups(List<Squad> squads) {
+        this.squads = squads;
     }
 
     public List<Post> getPosts() {
@@ -151,21 +152,21 @@ public class User {
         this.posts = posts;
     }
 
-    public void addGroup(Group group){
-        groups.add(group);
+    public void addGroup(Squad squad){
+        squads.add(squad);
     }
 
     public void addPost(Post post) {
         if(!this.posts.contains(post)){
             this.posts.add(post);
-            post.setUser1(this);
+            post.setMember(this);
         }
     }
 
     public void removePost(Post post) {
         if(this.posts.contains(post)){
             this.posts.remove(post);
-            post.setUser1(null);
+            post.setMember(null);
         }
     }
 
@@ -173,16 +174,16 @@ public class User {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return isAccountNonExpired == user.isAccountNonExpired &&
-                isAccountNonLocked == user.isAccountNonLocked &&
-                isCredentialsNonExpired == user.isCredentialsNonExpired &&
-                isEnabled == user.isEnabled &&
-                Objects.equals(id, user.id) &&
-                Objects.equals(username, user.username) &&
-                Objects.equals(password, user.password) &&
-                Objects.equals(email, user.email) &&
-                Objects.equals(authorities, user.authorities);
+        Member member = (Member) o;
+        return isAccountNonExpired == member.isAccountNonExpired &&
+                isAccountNonLocked == member.isAccountNonLocked &&
+                isCredentialsNonExpired == member.isCredentialsNonExpired &&
+                isEnabled == member.isEnabled &&
+                Objects.equals(id, member.id) &&
+                Objects.equals(username, member.username) &&
+                Objects.equals(password, member.password) &&
+                Objects.equals(email, member.email) &&
+                Objects.equals(authorities, member.authorities);
     }
 
     @Override
@@ -203,7 +204,7 @@ public class User {
                 ", isCredentialsNonExpired=" + isCredentialsNonExpired +
                 ", isEnabled=" + isEnabled +
                 ", authorities='" + authorities + '\'' +
-                ", groups='" + groups + '\''+
+                ", groups='" + squads + '\''+
                 ", posts='" + posts + '\''+
                 '}';
     }

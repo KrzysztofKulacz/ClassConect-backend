@@ -1,5 +1,7 @@
-package com.example.classconectbackend.domain;
+package com.example.classconectbackend.squad;
 
+import com.example.classconectbackend.member.Member;
+import com.example.classconectbackend.post.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
@@ -9,13 +11,13 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "group1")
-public class Group {
+@Table(name = "squad")
+public class Squad {
 
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID groupAdmin;
+    private UUID squadAdmin;
 
     @Column
     private String subject;
@@ -23,33 +25,32 @@ public class Group {
     @Column
     private String password;
 
-    @Column(name = "users")
-    @ManyToMany(mappedBy = "groups")
-    private List<User> users = new ArrayList<>();
+    @Column(name = "members")
+    @ManyToMany(mappedBy = "squads")
+    private List<Member> members = new ArrayList<>();
 
-    //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "posts")
     @OneToMany(
-            mappedBy = "group1",
+            mappedBy = "squad",
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER
     )
     private List<Post> posts = new ArrayList<>();
 
-    public Group() {}
+    public Squad() {}
 
     @Autowired
-    public Group(String subject, String password) {
+    public Squad(String subject, String password) {
         this.subject = subject;
         this.password = password;
     }
 
-    public UUID getGroupAdmin() {
-        return groupAdmin;
+    public UUID getSquadAdmin() {
+        return squadAdmin;
     }
 
-    public void setGroupAdmin(UUID groupAdmin) {
-        this.groupAdmin = groupAdmin;
+    public void setSquadAdmin(UUID squadAdmin) {
+        this.squadAdmin = squadAdmin;
     }
 
     public String getSubject() {
@@ -68,12 +69,12 @@ public class Group {
         this.password = password;
     }
 
-    public List<User> getUsers() {
-        return users;
+    public List<Member> getMembers() {
+        return members;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setMembers(List<Member> members) {
+        this.members = members;
     }
 
     public List<Post> getPosts() {
@@ -84,21 +85,21 @@ public class Group {
         this.posts = posts;
     }
 
-    public void addUser(User user){
-        users.add(user);
+    public void addMember(Member member){
+        members.add(member);
     }
 
     public void addPost(Post post) {
         if(!this.posts.contains(post)){
             this.posts.add(post);
-            post.setGroup1(this);
+            post.setSquad(this);
         }
     }
 
     public void removePost(Post post) {
         if(this.posts.contains(post)){
             this.posts.remove(post);
-            post.setGroup1(null);
+            post.setSquad(null);
         }
     }
 
@@ -106,24 +107,24 @@ public class Group {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Group group = (Group) o;
-        return Objects.equals(groupAdmin, group.groupAdmin) &&
-                Objects.equals(subject, group.subject) &&
-                Objects.equals(password, group.password);
+        Squad squad = (Squad) o;
+        return Objects.equals(squadAdmin, squad.squadAdmin) &&
+                Objects.equals(subject, squad.subject) &&
+                Objects.equals(password, squad.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(groupAdmin, subject, password, posts);
+        return Objects.hash(squadAdmin, subject, password, posts);
     }
 
     @Override
     public String toString() {
-        return "Group{" +
-                "groupAdmin=" + groupAdmin +
+        return "Squad{" +
+                "squadAdmin=" + squadAdmin +
                 ", subject='" + subject + '\'' +
                 ", password='" + password + '\'' +
-                ", users='" + users + '\'' +
+                ", members='" + members + '\'' +
                 ", posts='" + posts + '\'' +
                 '}';
     }

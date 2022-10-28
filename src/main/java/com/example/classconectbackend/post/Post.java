@@ -1,4 +1,7 @@
-package com.example.classconectbackend.domain;
+package com.example.classconectbackend.post;
+
+import com.example.classconectbackend.member.Member;
+import com.example.classconectbackend.squad.Squad;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -21,31 +24,29 @@ public class Post {
 
     @ManyToOne
     @JoinColumn(
-            name = "user1",
+            name = "member",
             nullable = false,
             foreignKey = @ForeignKey(
-                    name = "user_post_fk"
+                    name = "member_post_fk"
             )
     )
-    //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private User user1;
+    private Member member;
 
     @ManyToOne
     @JoinColumn(
-            name = "group1",
+            name = "squad",
             nullable = false,
             foreignKey = @ForeignKey(
-                    name = "group_post_fk"
+                    name = "squad_post_fk"
             )
     )
-    //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Group group1;
+    private Squad squad;
 
     public Post() {}
 
-    public Post(Group group1, User user1, String title, String text) {
-        this.group1 = group1;
-        this.user1 = user1;
+    public Post(Squad squad, Member member, String title, String text) {
+        this.squad = squad;
+        this.member = member;
         this.title = title;
         this.text = text;
     }
@@ -74,20 +75,20 @@ public class Post {
         this.text = text;
     }
 
-    public User getUser1() {
-        return user1;
+    public Member getMember() {
+        return member;
     }
 
-    public void setUser1(User user1) {
-        this.user1 = user1;
+    public void setMember(Member member) {
+        this.member = member;
     }
 
-    public Group getGroup1() {
-        return group1;
+    public Squad getSquad() {
+        return squad;
     }
 
-    public void setGroup1(Group group1) {
-        this.group1 = group1;
+    public void setSquad(Squad squad) {
+        this.squad = squad;
     }
 
     @Override
@@ -98,13 +99,13 @@ public class Post {
         return Objects.equals(id, post.id) &&
                 Objects.equals(title, post.title) &&
                 Objects.equals(text, post.text) &&
-                Objects.equals(user1, post.user1) &&
-                Objects.equals(group1, post.group1);
+                Objects.equals(member, post.member) &&
+                Objects.equals(squad, post.squad);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, text, user1, group1);
+        return Objects.hash(id, title, text, member, squad);
     }
 
     @Override
@@ -113,8 +114,8 @@ public class Post {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", text='" + text + '\'' +
-                ", user1=" + user1 + '\'' +
-                ", group1=" + group1 +
+                ", member=" + member + '\'' +
+                ", squad=" + squad +
                 '}';
     }
 
