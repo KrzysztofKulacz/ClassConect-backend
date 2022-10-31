@@ -2,6 +2,7 @@ package com.example.classconectbackend.squad;
 
 import com.example.classconectbackend.member.Member;
 import com.example.classconectbackend.post.Post;
+import org.hibernate.annotations.Cascade;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
@@ -20,29 +21,34 @@ public class Squad {
     private UUID squadAdmin;
 
     @Column
-    private String subject;
+    @Enumerated(EnumType.STRING)
+    private Subject subject;
 
     @Column
     private String password;
 
-    @Column(name = "members")
-    @ManyToMany(mappedBy = "squads")
+    @Column
+    @ManyToMany
+    @Cascade(value = org.hibernate.annotations.CascadeType.ALL)
     private List<Member> members = new ArrayList<>();
 
-    @Column(name = "posts")
+    @Column
     @OneToMany(
             mappedBy = "squad",
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER
     )
+    @Cascade(value = org.hibernate.annotations.CascadeType.ALL)
     private List<Post> posts = new ArrayList<>();
 
     public Squad() {}
 
-    @Autowired
-    public Squad(String subject, String password) {
+    public Squad(UUID squadAdmin, Subject subject, String password, List<Member> members, List<Post> posts) {
+        this.squadAdmin = squadAdmin;
         this.subject = subject;
         this.password = password;
+        this.members = members;
+        this.posts = posts;
     }
 
     public UUID getSquadAdmin() {
@@ -53,11 +59,11 @@ public class Squad {
         this.squadAdmin = squadAdmin;
     }
 
-    public String getSubject() {
+    public Subject getSubject() {
         return subject;
     }
 
-    public void setSubject(String subject) {
+    public void setSubject(Subject subject) {
         this.subject = subject;
     }
 
@@ -124,8 +130,6 @@ public class Squad {
                 "squadAdmin=" + squadAdmin +
                 ", subject='" + subject + '\'' +
                 ", password='" + password + '\'' +
-                ", members='" + members + '\'' +
-                ", posts='" + posts + '\'' +
                 '}';
     }
 }

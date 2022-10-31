@@ -2,6 +2,7 @@ package com.example.classconectbackend.member;
 
 import com.example.classconectbackend.squad.Squad;
 import com.example.classconectbackend.post.Post;
+import org.hibernate.annotations.Cascade;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
@@ -43,25 +44,34 @@ public class Member {
     @Column(name = "authorities")
     private String authorities;
 
-    @Column(name = "groups")
-    @ManyToMany
+    @Column
+    @ManyToMany(mappedBy = "members")
+    @Cascade(value = org.hibernate.annotations.CascadeType.ALL)
     private List<Squad> squads = new ArrayList<>();
 
-    @Column(name = "posts")
+    @Column
     @OneToMany(
             mappedBy = "member",
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER
     )
+    @Cascade(value = org.hibernate.annotations.CascadeType.ALL)
     private List<Post> posts = new ArrayList<>();
 
     public Member() {}
 
-    @Autowired
-    public Member(String username, String password, String email) {
+    public Member(UUID id, String username, String password, String email, boolean isAccountNonExpired, boolean isAccountNonLocked, boolean isCredentialsNonExpired, boolean isEnabled, String authorities, List<Squad> squads, List<Post> posts) {
+        this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
+        this.isAccountNonExpired = isAccountNonExpired;
+        this.isAccountNonLocked = isAccountNonLocked;
+        this.isCredentialsNonExpired = isCredentialsNonExpired;
+        this.isEnabled = isEnabled;
+        this.authorities = authorities;
+        this.squads = squads;
+        //this.posts = posts;
     }
 
     public UUID getId() {
@@ -136,11 +146,11 @@ public class Member {
         this.authorities = authorities;
     }
 
-    public List<Squad> getGroups() {
+    public List<Squad> getSquads() {
         return squads;
     }
 
-    public void setGroups(List<Squad> squads) {
+    public void setSquads(List<Squad> squads) {
         this.squads = squads;
     }
 
@@ -152,7 +162,7 @@ public class Member {
         this.posts = posts;
     }
 
-    public void addGroup(Squad squad){
+    public void addSquad(Squad squad){
         squads.add(squad);
     }
 
@@ -194,7 +204,7 @@ public class Member {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "Member{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
@@ -204,7 +214,7 @@ public class Member {
                 ", isCredentialsNonExpired=" + isCredentialsNonExpired +
                 ", isEnabled=" + isEnabled +
                 ", authorities='" + authorities + '\'' +
-                ", groups='" + squads + '\''+
+                ", squads='" + squads + '\''+
                 ", posts='" + posts + '\''+
                 '}';
     }

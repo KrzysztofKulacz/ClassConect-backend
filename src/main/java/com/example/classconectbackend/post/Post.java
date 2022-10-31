@@ -2,6 +2,7 @@ package com.example.classconectbackend.post;
 
 import com.example.classconectbackend.member.Member;
 import com.example.classconectbackend.squad.Squad;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -30,6 +31,7 @@ public class Post {
                     name = "member_post_fk"
             )
     )
+    @Cascade(value = org.hibernate.annotations.CascadeType.ALL)
     private Member member;
 
     @ManyToOne
@@ -40,15 +42,17 @@ public class Post {
                     name = "squad_post_fk"
             )
     )
+    @Cascade(value = org.hibernate.annotations.CascadeType.ALL)
     private Squad squad;
 
     public Post() {}
 
-    public Post(Squad squad, Member member, String title, String text) {
-        this.squad = squad;
-        this.member = member;
+    public Post(UUID id, String title, String text, Member member, Squad squad) {
+        this.id = id;
         this.title = title;
         this.text = text;
+        this.member = member;
+        this.squad = squad;
     }
 
     public UUID getId() {
@@ -114,8 +118,6 @@ public class Post {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", text='" + text + '\'' +
-                ", member=" + member + '\'' +
-                ", squad=" + squad +
                 '}';
     }
 
