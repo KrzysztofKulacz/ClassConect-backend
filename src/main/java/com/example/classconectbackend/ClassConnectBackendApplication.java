@@ -3,12 +3,13 @@ package com.example.classconectbackend;
 import com.example.classconectbackend.member.Member;
 import com.example.classconectbackend.member.MemberRepository;
 import com.example.classconectbackend.post.Post;
-import com.example.classconectbackend.post.PostRepository;
+import com.example.classconectbackend.team.Subject;
+import com.example.classconectbackend.team.Team;
+import com.example.classconectbackend.team.TeamRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
 
-import java.util.List;
+import javax.swing.text.Position;
 import java.util.UUID;
 
 @SpringBootApplication
@@ -16,21 +17,20 @@ public class ClassConnectBackendApplication {
 
     public static void main(String[] args) {
         var applicationContext = SpringApplication.run(ClassConnectBackendApplication.class, args);
-        var memberRepository = applicationContext.getBean(MemberRepository.class);
+        var teamRepository = applicationContext.getBean(TeamRepository.class);
+
+        var post = new Post();
+        post.setTitle("TeamTestTitle");
 
         var member = new Member();
-        var post = new Post();
-
-        post.setText("Test test");
-        post.setTitle("Test title");
-
-        member.setUsername("Test Username");
-        member.setEmail("test mejl");
         member.addPost(post);
-        member.setAuthorities("test auth");
 
+        var team = new Team();
+        team.setSubject(Subject.MATH);
+        team.setPassword(UUID.randomUUID().toString());
+        team.addPost(post);
 
-        memberRepository.save(member);
+        teamRepository.save(team);
     }
 
 }
