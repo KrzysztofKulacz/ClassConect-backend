@@ -17,20 +17,28 @@ public class ClassConnectBackendApplication {
 
     public static void main(String[] args) {
         var applicationContext = SpringApplication.run(ClassConnectBackendApplication.class, args);
-        var teamRepository = applicationContext.getBean(TeamRepository.class);
+        var memberRepository = applicationContext.getBean(MemberRepository.class);
 
         var post = new Post();
-        post.setTitle("TeamTestTitle");
+        post.setTitle("Example title");
+        post.setText("Example text");
 
         var member = new Member();
+        member.setUsername("ABC");
         member.addPost(post);
+        member.setEmail("Example mail");
+        member.setPassword("Example password");
+
 
         var team = new Team();
         team.setSubject(Subject.MATH);
-        team.setPassword(UUID.randomUUID().toString());
+        team.setPassword("Example password");
+        team.setGroupAdmin(UUID.randomUUID());
         team.addPost(post);
 
-        teamRepository.save(team);
+        member.addTeam(team);
+
+        memberRepository.save(member);
     }
 
 }

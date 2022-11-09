@@ -92,6 +92,6 @@ public class Post {
 
     @Override
     public int hashCode() {
-        return Objects.hash(postId, title, text, member);
+        return Objects.hash(postId, title, text);
     }
 }

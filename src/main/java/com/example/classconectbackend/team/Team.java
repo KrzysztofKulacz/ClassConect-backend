@@ -1,5 +1,6 @@
 package com.example.classconectbackend.team;
 
+import com.example.classconectbackend.member.Member;
 import com.example.classconectbackend.post.Post;
 
 import javax.persistence.*;
@@ -17,6 +18,9 @@ public class Team {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID teamId;
 
+    @Column(name = "group_admin")
+    private UUID groupAdmin;
+
     @Column(name = "subject")
     @Enumerated(EnumType.STRING)
     private Subject subject;
@@ -24,8 +28,16 @@ public class Team {
     @Column(name = "password")
     private String password;
 
-    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Post> posts = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "member_team",
+            joinColumns = @JoinColumn(name = "teamId", referencedColumnName = "team_id"),
+            inverseJoinColumns = @JoinColumn(name = "memberId",referencedColumnName = "member_id")
+    )
+    private List<Member> members = new ArrayList<>();
 
     public Team() {
     }
@@ -69,9 +81,35 @@ public class Team {
         this.posts = posts;
     }
 
-    public void addPost(Post post){
+    public List<Member> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<Member> members) {
+        this.members = members;
+    }
+
+    public void addMember(Member member){
+        this.members.add(member);
+        member.getTeams().add(this);
+    }
+
+    public void removeMember(Member member){
+        this.members.remove(member);
+        member.getTeams().remove(this);
+    }
+
+    public void addPost(Post post) {
         post.setTeam(this);
         this.posts.add(post);
+    }
+
+    public UUID getGroupAdmin() {
+        return groupAdmin;
+    }
+
+    public void setGroupAdmin(UUID groupAdmin) {
+        this.groupAdmin = groupAdmin;
     }
 
     @Override
