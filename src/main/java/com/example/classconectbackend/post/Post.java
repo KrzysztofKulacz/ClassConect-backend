@@ -1,14 +1,14 @@
 package com.example.classconectbackend.post;
 
 import com.example.classconectbackend.member.Member;
-import org.hibernate.annotations.GenericGenerator;
+import com.example.classconectbackend.team.Team;
 
 import javax.persistence.*;
 import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "post",schema = "public")
+@Table(name = "post", schema = "public")
 public class Post {
 
     @Id
@@ -22,10 +22,15 @@ public class Post {
     @Column(name = "text")
     private String text;
 
-    @ManyToOne
-    @JoinColumn(name = "memberId",referencedColumnName = "member_id",
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "memberId", referencedColumnName = "member_id",
             foreignKey = @ForeignKey(name = "post_member_fk"))
     private Member member;
+
+    @ManyToOne
+    @JoinColumn(name = "teamId", referencedColumnName = "team_id",
+            foreignKey = @ForeignKey(name = "post_team_fk"))
+    private Team team;
 
     public Post() {
     }
@@ -67,6 +72,14 @@ public class Post {
 
     public void setMember(Member member) {
         this.member = member;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
     }
 
     @Override
