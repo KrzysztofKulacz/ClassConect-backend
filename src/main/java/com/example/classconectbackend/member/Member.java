@@ -1,15 +1,16 @@
 package com.example.classconectbackend.member;
 
 import com.example.classconectbackend.post.Post;
+import com.example.classconectbackend.team.Team;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "member",schema = "public")
+@Table(name = "member", schema = "public")
 public class Member {
 
     @Id
@@ -41,15 +42,30 @@ public class Member {
     @Column(name = "authorities")
     private String authorities;
 
-    @OneToMany(mappedBy = "member",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    private List<Post> posts = new ArrayList<>();
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    private Set<Post> posts = new HashSet<>();
+
+    @ManyToMany(mappedBy = "members", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Team> teams = new HashSet<>();
 
     public Member() {
     }
 
-    public void addPost(Post post){
-        post.setMember(this);
-        this.posts.add(post);
+    public void addPost(Post post) {
+        if (!this.posts.contains(post)) {
+            post.setMember(this);
+            this.posts.add(post);
+        }
+    }
+
+    public void addTeam(Team team) {
+        this.teams.add(team);
+        team.getMembers().add(this);
+    }
+
+    public void removeTeam(Team team){
+        this.teams.remove(team);
+        team.getMembers().remove(this);
     }
 
     public UUID getMemberId() {
@@ -124,26 +140,33 @@ public class Member {
         this.authorities = authorities;
     }
 
-    public List<Post> getPosts() {
+    public Set<Post> getPosts() {
         return posts;
     }
 
-    public void setPosts(List<Post> posts) {
+    public void setPosts(Set<Post> posts) {
         this.posts = posts;
     }
+
+    public Set<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(Set<Team> teams) {
+        this.teams = teams;
+    }
+
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Member member = (Member) o;
-        return isAccountNonExpired == member.isAccountNonExpired && isAccountNonLocked == member.isAccountNonLocked && isCredentialsNonExpired == member.isCredentialsNonExpired && isEnabled == member.isEnabled && Objects.equals(memberId, member.memberId) && Objects.equals(username, member.username) && Objects.equals(password, member.password) && Objects.equals(email, member.email) && Objects.equals(authorities, member.authorities) && Objects.equals(posts, member.posts);
+        return isAccountNonExpired == member.isAccountNonExpired && isAccountNonLocked == member.isAccountNonLocked && isCredentialsNonExpired == member.isCredentialsNonExpired && isEnabled == member.isEnabled && Objects.equals(memberId, member.memberId) && Objects.equals(username, member.username) && Objects.equals(password, member.password) && Objects.equals(email, member.email) && Objects.equals(authorities, member.authorities) && Objects.equals(posts, member.posts) && Objects.equals(teams, member.teams);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(memberId, username, password, email, isAccountNonExpired, isAccountNonLocked, isCredentialsNonExpired, isEnabled, authorities, posts);
+        return Objects.hash(memberId, username, password, email, isAccountNonExpired, isAccountNonLocked, isCredentialsNonExpired, isEnabled, authorities, posts, teams);
     }
-
-
 }
