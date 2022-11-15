@@ -4,6 +4,7 @@ import com.example.classconectbackend.post.Post;
 import com.example.classconectbackend.team.Team;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -41,6 +42,9 @@ public class Member {
 
     @Column(name = "authorities")
     private String authorities;
+
+    @Column(name = "creation_date")
+    private LocalDateTime creationDate;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Post> posts = new HashSet<>();
@@ -140,6 +144,14 @@ public class Member {
         this.authorities = authorities;
     }
 
+    public LocalDateTime getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(LocalDateTime creationDate) {
+        this.creationDate = creationDate;
+    }
+
     public Set<Post> getPosts() {
         return posts;
     }
@@ -162,11 +174,17 @@ public class Member {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Member member = (Member) o;
-        return isAccountNonExpired == member.isAccountNonExpired && isAccountNonLocked == member.isAccountNonLocked && isCredentialsNonExpired == member.isCredentialsNonExpired && isEnabled == member.isEnabled && Objects.equals(memberId, member.memberId) && Objects.equals(username, member.username) && Objects.equals(password, member.password) && Objects.equals(email, member.email) && Objects.equals(authorities, member.authorities) && Objects.equals(posts, member.posts) && Objects.equals(teams, member.teams);
+        return isAccountNonExpired == member.isAccountNonExpired && isAccountNonLocked == member.isAccountNonLocked &&
+                isCredentialsNonExpired == member.isCredentialsNonExpired &&
+                isEnabled == member.isEnabled &&
+                Objects.equals(memberId, member.memberId) && Objects.equals(username, member.username) &&
+                Objects.equals(password, member.password) && Objects.equals(email, member.email) &&
+                Objects.equals(authorities, member.authorities) && Objects.equals(creationDate, member.creationDate)&&
+                Objects.equals(posts, member.posts) && Objects.equals(teams, member.teams);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(memberId, username, password, email, isAccountNonExpired, isAccountNonLocked, isCredentialsNonExpired, isEnabled, authorities, posts, teams);
+        return Objects.hash(memberId, username, password, email, isAccountNonExpired, isAccountNonLocked, isCredentialsNonExpired, isEnabled, authorities, creationDate, posts, teams);
     }
 }

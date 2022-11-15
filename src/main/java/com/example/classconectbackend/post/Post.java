@@ -4,6 +4,7 @@ import com.example.classconectbackend.member.Member;
 import com.example.classconectbackend.team.Team;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -21,6 +22,9 @@ public class Post {
 
     @Column(name = "text")
     private String text;
+
+    @Column(name = "creation_date")
+    private LocalDateTime creationDate;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "memberId", referencedColumnName = "member_id",
@@ -66,6 +70,15 @@ public class Post {
         this.text = text;
     }
 
+    public LocalDateTime getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(LocalDateTime creationDate) {
+        this.creationDate = creationDate;
+    }
+
+
     public Member getMember() {
         return member;
     }
@@ -87,11 +100,13 @@ public class Post {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Post post = (Post) o;
-        return Objects.equals(postId, post.postId) && Objects.equals(title, post.title) && Objects.equals(text, post.text) && Objects.equals(member, post.member);
+        return Objects.equals(postId, post.postId) &&
+                Objects.equals(title, post.title) && Objects.equals(text, post.text) &&
+                Objects.equals(creationDate, post.creationDate) && Objects.equals(member, post.member);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(postId, title, text);
+        return Objects.hash(postId, title, text, creationDate);
     }
 }

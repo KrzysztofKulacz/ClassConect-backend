@@ -5,7 +5,7 @@ CREATE TABLE team
     password VARCHAR(255)
 );
 
-ALTER TABLE team
+ALTER TABLE classconect.public.team
     ADD CONSTRAINT pk_team PRIMARY KEY (team_id);
 
 ALTER TABLE classconect.public.post

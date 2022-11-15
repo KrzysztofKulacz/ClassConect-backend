@@ -4,13 +4,14 @@ import com.example.classconectbackend.member.Member;
 import com.example.classconectbackend.post.Post;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "team")
+@Table(name = "team", schema = "public")
 public class Team {
 
     @Id
@@ -27,6 +28,9 @@ public class Team {
 
     @Column(name = "password")
     private String password;
+
+    @Column(name = "creation_date")
+    private LocalDateTime creationDate;
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Post> posts = new ArrayList<>();
@@ -72,6 +76,15 @@ public class Team {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public LocalDateTime getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(LocalDateTime creationDate) {
+        this.creationDate = creationDate;
+    }
+
 
     public List<Post> getPosts() {
         return posts;
@@ -121,11 +134,13 @@ public class Team {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Team team = (Team) o;
-        return Objects.equals(teamId, team.teamId) && subject == team.subject && Objects.equals(password, team.password) && Objects.equals(posts, team.posts);
+        return Objects.equals(teamId, team.teamId) && subject == team.subject &&
+                Objects.equals(password, team.password) && Objects.equals(creationDate, team.creationDate) &&
+                Objects.equals(posts, team.posts);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(teamId, subject, password, posts);
+        return Objects.hash(teamId, subject, password,  creationDate, posts);
     }
 }
