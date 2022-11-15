@@ -13,11 +13,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class ClassConectBackendApplication {
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext run = SpringApplication.run(ClassConectBackendApplication.class, args);
-
-        MailSenderImpl mail = run.getBean(MailSenderImpl.class);
-
-        mail.sendEmail(new EmailDetails("classconect0@gmail.com", "krzysztof.mckulacz@gmail.com", "To jest treść maila", "ClassConect mail register"));
+        SpringApplication.run(ClassConectBackendApplication.class, args);
     }
 
 }
