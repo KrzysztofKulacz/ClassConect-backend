@@ -46,6 +46,9 @@ public class Member {
     @Column(name = "creation_date")
     private LocalDateTime creationDate;
 
+    @Column(name = "activation_code")
+    private UUID activationCode;
+
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Post> posts = new HashSet<>();
 
@@ -152,6 +155,14 @@ public class Member {
         this.creationDate = creationDate;
     }
 
+    public UUID getActivationCode() {
+        return activationCode;
+    }
+
+    public void setActivationCode(UUID activationCode) {
+        this.activationCode = activationCode;
+    }
+
     public Set<Post> getPosts() {
         return posts;
     }
@@ -180,11 +191,11 @@ public class Member {
                 Objects.equals(memberId, member.memberId) && Objects.equals(username, member.username) &&
                 Objects.equals(password, member.password) && Objects.equals(email, member.email) &&
                 Objects.equals(authorities, member.authorities) && Objects.equals(creationDate, member.creationDate)&&
-                Objects.equals(posts, member.posts) && Objects.equals(teams, member.teams);
+                Objects.equals(activationCode, member.activationCode) && Objects.equals(posts, member.posts) && Objects.equals(teams, member.teams);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(memberId, username, password, email, isAccountNonExpired, isAccountNonLocked, isCredentialsNonExpired, isEnabled, authorities, creationDate, posts, teams);
+        return Objects.hash(memberId, username, password, email, isAccountNonExpired, isAccountNonLocked, isCredentialsNonExpired, isEnabled, authorities, creationDate,activationCode, posts, teams);
     }
 }

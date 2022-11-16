@@ -1,26 +1,34 @@
 package com.example.classconectbackend.register;
 
-import com.example.classconectbackend.mail.EmailDetails;
 import com.example.classconectbackend.mail.MailSender;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("v1/register")
 public class RegisterResource {
 
     private final MailSender mailSender;
+    private final RegisterService registerService;
 
-    public RegisterResource(MailSender mailSender) {
+    public RegisterResource(MailSender mailSender, RegisterService registerService) {
         this.mailSender = mailSender;
+        this.registerService = registerService;
     }
 
-    @PostMapping("/sendMail")
-    public ResponseEntity<String> sendMail(@RequestBody EmailDetails emailDetails){
+    @PostMapping("/member")
+    public ResponseEntity<Void> registerNewMember(@RequestBody RegisterRequest registerRequest){
 
-        mailSender.sendEmail(emailDetails);
+        registerService.registerNewMember(registerRequest);
 
-        return ResponseEntity.ok().body("Mail sent");
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @GetMapping("/activate-member")
+    public ResponseEntity<String> activateMember(@RequestParam(name = "activationCode") String activationCode){
+        registerService.activateMember(activationCode);
+
+        return new ResponseEntity<>("Activation succesed. You can now login to the app", HttpStatus.OK);
     }
 }
