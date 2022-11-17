@@ -2,19 +2,15 @@ package com.example.classconectbackend.member;
 
 public enum Role {
 
-    STUDENT("student"), TEACHER("teacher");
+    STUDENT(new String[]{"VIEW_GROUPS", "DELETE_GROUPS"}), TEACHER(new String[]{"VIEW_GROUPS", "DELETE_GROUPS"});
 
-    //...TODO zmienić role, zrobić jako lista stringów
+    private final String[] description;
 
-
-
-    private final String description;
-
-    Role(String description) {
+    Role(String[] description) {
         this.description = description;
     }
 
-    public String getDescription() {
+    public String[] getDescription() {
         return description;
     }
 

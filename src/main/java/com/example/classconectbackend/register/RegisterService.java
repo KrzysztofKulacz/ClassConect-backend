@@ -53,7 +53,7 @@ public class RegisterService {
     public void activateMember(String activationCode) {
 
         var uuidActivationCode = UUID.fromString(activationCode);
-        var registeredMember = memberRepository.findByActivationCode(uuidActivationCode);
+        var registeredMember = memberRepository.findByActivationCode(uuidActivationCode).orElseThrow(() -> new RuntimeException("Member doesn't exist"));
 
         registeredMember.setAccountNonExpired(true);
         registeredMember.setAccountNonLocked(true);
