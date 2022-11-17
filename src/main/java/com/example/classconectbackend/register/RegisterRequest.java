@@ -1,10 +1,13 @@
 package com.example.classconectbackend.register;
 
+import com.example.classconectbackend.member.Role;
+
 public class RegisterRequest {
 
     private String username;
     private String password;
     private String email;
+    private Role role;
     private String authorities;
 
     public RegisterRequest() {
@@ -32,6 +35,14 @@ public class RegisterRequest {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public String getAuthorities() {

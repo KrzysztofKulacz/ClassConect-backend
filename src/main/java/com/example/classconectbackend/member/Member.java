@@ -28,6 +28,10 @@ public class Member {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     @Column(name = "is_account_non_expired")
     private boolean isAccountNonExpired;
 
@@ -105,6 +109,14 @@ public class Member {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public boolean isAccountNonExpired() {
@@ -189,13 +201,13 @@ public class Member {
                 isCredentialsNonExpired == member.isCredentialsNonExpired &&
                 isEnabled == member.isEnabled &&
                 Objects.equals(memberId, member.memberId) && Objects.equals(username, member.username) &&
-                Objects.equals(password, member.password) && Objects.equals(email, member.email) &&
+                Objects.equals(password, member.password) && Objects.equals(email, member.email) && Objects.equals(role, member.role) &&
                 Objects.equals(authorities, member.authorities) && Objects.equals(creationDate, member.creationDate)&&
                 Objects.equals(activationCode, member.activationCode) && Objects.equals(posts, member.posts) && Objects.equals(teams, member.teams);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(memberId, username, password, email, isAccountNonExpired, isAccountNonLocked, isCredentialsNonExpired, isEnabled, authorities, creationDate,activationCode, posts, teams);
+        return Objects.hash(memberId, username, password, email, role, isAccountNonExpired, isAccountNonLocked, isCredentialsNonExpired, isEnabled, authorities, creationDate,activationCode, posts, teams);
     }
 }
