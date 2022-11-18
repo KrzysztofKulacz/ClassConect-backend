@@ -2,16 +2,16 @@ package com.example.classconectbackend.member;
 
 public enum Role {
 
-    STUDENT(new String[]{"VIEW_GROUPS", "DELETE_GROUPS"}), TEACHER(new String[]{"VIEW_GROUPS", "DELETE_GROUPS"});
+    STUDENT(new String[]{"VIEW_GROUPS", "DELETE_GROUPS"}), TEACHER(new String[]{"VIEW_GROUPS", "DELETE_GROUPS", "EDIT_GROUPS"});
 
-    private final String[] description;
+    private final String[] authorities;
 
-    Role(String[] description) {
-        this.description = description;
+    Role(String[] authorities) {
+        this.authorities = authorities;
     }
 
-    public String[] getDescription() {
-        return description;
+    public String[] getAuthorities() {
+        return authorities;
     }
 
 }

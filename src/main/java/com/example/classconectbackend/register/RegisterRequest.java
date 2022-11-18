@@ -8,7 +8,6 @@ public class RegisterRequest {
     private String password;
     private String email;
     private Role role;
-    private String authorities;
 
     public RegisterRequest() {
     }
@@ -43,13 +42,5 @@ public class RegisterRequest {
 
     public void setRole(Role role) {
         this.role = role;
-    }
-
-    public String getAuthorities() {
-        return authorities;
-    }
-
-    public void setAuthorities(String authorities) {
-        this.authorities = authorities;
     }
 }

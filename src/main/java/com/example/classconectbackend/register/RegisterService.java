@@ -1,6 +1,6 @@
 package com.example.classconectbackend.register;
 
-import com.example.classconectbackend.configuration.properties.ActivationLinkProperties;
+import com.example.classconectbackend.configuration.properties.BackendProperties;
 import com.example.classconectbackend.mail.EmailDetails;
 import com.example.classconectbackend.mail.MailSenderImpl;
 import com.example.classconectbackend.member.Member;
@@ -16,13 +16,13 @@ public class RegisterService {
 
     private final MemberRepository memberRepository;
     private final MailSenderImpl mailSender;
-    private final ActivationLinkProperties activationLinkProperties;
+    private final BackendProperties backendProperties;
 
     @Autowired
-    public RegisterService(MemberRepository memberRepository, MailSenderImpl mailSender, ActivationLinkProperties activationLinkProperties) {
+    public RegisterService(MemberRepository memberRepository, MailSenderImpl mailSender, BackendProperties backendProperties) {
         this.memberRepository = memberRepository;
         this.mailSender = mailSender;
-        this.activationLinkProperties = activationLinkProperties;
+        this.backendProperties = backendProperties;
     }
 
     public void registerNewMember(RegisterRequest registerRequest) {
@@ -34,7 +34,7 @@ public class RegisterService {
         newMember.setPassword(registerRequest.getPassword());
         newMember.setEmail(registerRequest.getEmail());
         newMember.setRole(registerRequest.getRole());
-        newMember.setAuthorities(registerRequest.getAuthorities());
+        newMember.setAuthorities(registerRequest.getRole().getAuthorities());
         newMember.setCreationDate(now);
         newMember.setActivationCode(activationCode);
 
@@ -47,8 +47,8 @@ public class RegisterService {
                 "classconnect",
                 member.getEmail(),
                 "Welcome to ClassConnect. In order to activate, click link: http://" +
-                        activationLinkProperties.getHost() + ":" +
-                        activationLinkProperties.getPort() + "/v1/register/activate-member?activationCode=" +
+                        backendProperties.getHost() + ":" +
+                        backendProperties.getPort() + "/v1/register/activate-member?activationCode=" +
                         member.getActivationCode(),
                 "Welcome to Classconnect"
         );

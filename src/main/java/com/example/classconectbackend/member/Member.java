@@ -5,10 +5,7 @@ import com.example.classconectbackend.team.Team;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "member", schema = "public")
@@ -45,7 +42,7 @@ public class Member {
     private boolean isEnabled;
 
     @Column(name = "authorities")
-    private String authorities;
+    private String[] authorities;
 
     @Column(name = "creation_date")
     private LocalDateTime creationDate;
@@ -151,11 +148,11 @@ public class Member {
         isEnabled = enabled;
     }
 
-    public String getAuthorities() {
+    public String[] getAuthorities() {
         return authorities;
     }
 
-    public void setAuthorities(String authorities) {
+    public void setAuthorities(String[] authorities) {
         this.authorities = authorities;
     }
 
@@ -202,12 +199,13 @@ public class Member {
                 isEnabled == member.isEnabled &&
                 Objects.equals(memberId, member.memberId) && Objects.equals(username, member.username) &&
                 Objects.equals(password, member.password) && Objects.equals(email, member.email) && Objects.equals(role, member.role) &&
-                Objects.equals(authorities, member.authorities) && Objects.equals(creationDate, member.creationDate)&&
+                Arrays.equals(authorities, member.authorities) && Objects.equals(creationDate, member.creationDate)&&
                 Objects.equals(activationCode, member.activationCode) && Objects.equals(posts, member.posts) && Objects.equals(teams, member.teams);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(memberId, username, password, email, role, isAccountNonExpired, isAccountNonLocked, isCredentialsNonExpired, isEnabled, authorities, creationDate,activationCode, posts, teams);
+        return Objects.hash(memberId, username, password, email, role, isAccountNonExpired, isAccountNonLocked,
+                isCredentialsNonExpired, isEnabled, Arrays.hashCode(authorities), creationDate,activationCode, posts, teams);
     }
 }

@@ -24,6 +24,7 @@ public class RegisterResource {
 
     @GetMapping("/activate-member")
     public ResponseEntity<String> activateMember(@RequestParam(name = "activationCode") String activationCode){
+
         registerService.activateMember(activationCode);
 
         return new ResponseEntity<>("Activation succesed. You can now login to the app", HttpStatus.OK);

@@ -5,15 +5,15 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConfigurationProperties(prefix = "backend")
-public class ActivationLinkProperties {
+public class BackendProperties {
 
     private String host;
     private String port;
 
-    public ActivationLinkProperties() {
+    public BackendProperties() {
     }
 
-    public ActivationLinkProperties(String host, String port) {
+    public BackendProperties(String host, String port) {
         this.host = host;
         this.port = port;
     }
