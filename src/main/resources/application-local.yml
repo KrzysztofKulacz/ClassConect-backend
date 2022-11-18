@@ -20,3 +20,6 @@ mail:
   starttlsEnable: true
   starttlsRequired: true
   debug: true
+backend:
+  host: localhost
+  port: 8080

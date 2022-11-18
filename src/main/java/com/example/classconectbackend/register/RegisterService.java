@@ -1,5 +1,6 @@
 package com.example.classconectbackend.register;
 
+import com.example.classconectbackend.configuration.properties.ActivationLinkProperties;
 import com.example.classconectbackend.mail.EmailDetails;
 import com.example.classconectbackend.mail.MailSenderImpl;
 import com.example.classconectbackend.member.Member;
@@ -8,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -16,12 +16,13 @@ public class RegisterService {
 
     private final MemberRepository memberRepository;
     private final MailSenderImpl mailSender;
-
+    private final ActivationLinkProperties activationLinkProperties;
 
     @Autowired
-    public RegisterService(MemberRepository memberRepository, MailSenderImpl mailSender) {
+    public RegisterService(MemberRepository memberRepository, MailSenderImpl mailSender, ActivationLinkProperties activationLinkProperties) {
         this.memberRepository = memberRepository;
         this.mailSender = mailSender;
+        this.activationLinkProperties = activationLinkProperties;
     }
 
     public void registerNewMember(RegisterRequest registerRequest) {
@@ -45,7 +46,10 @@ public class RegisterService {
         return new EmailDetails(
                 "classconnect",
                 member.getEmail(),
-                "Welcome to ClassConnect. In order to activate, click link: http://localhost:8080/v1/register/activate-member?activationCode=" + member.getActivationCode(),
+                "Welcome to ClassConnect. In order to activate, click link: http://" +
+                        activationLinkProperties.getHost() + ":" +
+                        activationLinkProperties.getPort() + "/v1/register/activate-member?activationCode=" +
+                        member.getActivationCode(),
                 "Welcome to Classconnect"
         );
     }
@@ -53,7 +57,7 @@ public class RegisterService {
     public void activateMember(String activationCode) {
 
         var uuidActivationCode = UUID.fromString(activationCode);
-        var registeredMember = memberRepository.findByActivationCode(uuidActivationCode).orElseThrow(() -> new RuntimeException("Member doesn't exist"));
+        var registeredMember = memberRepository.findByActivationCode(uuidActivationCode).orElseThrow(() -> new IllegalStateException("Member doesn't exist"));
 
         registeredMember.setAccountNonExpired(true);
         registeredMember.setAccountNonLocked(true);

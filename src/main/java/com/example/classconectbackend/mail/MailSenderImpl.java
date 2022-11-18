@@ -24,7 +24,5 @@ public class MailSenderImpl implements MailSender{
             mailMessage.setSubject(emailDetails.getSubject());
 
             javaMailSender.send(mailMessage);
-
-            //log.info("Mail sent to {}, from {}",emailDetails.getSender(),emailDetails.getSender());
     }
 }

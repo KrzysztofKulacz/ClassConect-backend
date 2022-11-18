@@ -1,7 +1,5 @@
 package com.example.classconectbackend.mail;
 
-import org.springframework.stereotype.Component;
-
 public class EmailDetails {
 
     private String sender;

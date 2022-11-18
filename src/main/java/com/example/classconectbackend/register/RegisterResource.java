@@ -1,6 +1,5 @@
 package com.example.classconectbackend.register;
 
-import com.example.classconectbackend.mail.MailSender;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,11 +8,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("v1/register")
 public class RegisterResource {
 
-    private final MailSender mailSender;
     private final RegisterService registerService;
 
-    public RegisterResource(MailSender mailSender, RegisterService registerService) {
-        this.mailSender = mailSender;
+    public RegisterResource(RegisterService registerService) {
         this.registerService = registerService;
     }
 
