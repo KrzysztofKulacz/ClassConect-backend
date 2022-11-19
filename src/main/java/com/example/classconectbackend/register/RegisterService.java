@@ -2,7 +2,7 @@ package com.example.classconectbackend.register;
 
 import com.example.classconectbackend.configuration.properties.BackendProperties;
 import com.example.classconectbackend.mail.EmailDetails;
-import com.example.classconectbackend.mail.MailSenderImpl;
+import com.example.classconectbackend.mail.MailSender;
 import com.example.classconectbackend.member.Member;
 import com.example.classconectbackend.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +15,11 @@ import java.util.UUID;
 public class RegisterService {
 
     private final MemberRepository memberRepository;
-    private final MailSenderImpl mailSender;
+    private final MailSender mailSender;
     private final BackendProperties backendProperties;
 
     @Autowired
-    public RegisterService(MemberRepository memberRepository, MailSenderImpl mailSender, BackendProperties backendProperties) {
+    public RegisterService(MemberRepository memberRepository, MailSender mailSender, BackendProperties backendProperties) {
         this.memberRepository = memberRepository;
         this.mailSender = mailSender;
         this.backendProperties = backendProperties;
