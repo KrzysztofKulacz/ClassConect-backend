@@ -2,6 +2,7 @@ package com.example.classconectbackend.member;
 
 import com.example.classconectbackend.post.Post;
 import com.example.classconectbackend.team.Team;
+import com.example.classconectbackend.utils.AuthoritiesConverter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -42,6 +43,7 @@ public class Member {
     private boolean isEnabled;
 
     @Column(name = "authorities")
+    @Convert(converter = AuthoritiesConverter.class)
     private String[] authorities;
 
     @Column(name = "creation_date")

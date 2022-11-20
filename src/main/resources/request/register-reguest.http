@@ -1,0 +1,11 @@
+POST http://localhost:8080/v1/register/member
+Content-Type: application/json
+
+{
+  "username": "bartuś",
+  "password": "dupacycki",
+  "email": "krzysztof.mckulacz@gmail.com",
+  "role": "STUDENT"
+}
+
+###
