@@ -9,9 +9,16 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 public class SecurityConfig {
+
+    private final JwtTokenFilter jwtTokenFilter;
+
+    public SecurityConfig(JwtTokenFilter jwtTokenFilter) {
+        this.jwtTokenFilter = jwtTokenFilter;
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -32,9 +39,11 @@ public class SecurityConfig {
         httpSecurity.csrf().disable();
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        return httpSecurity.authorizeRequests(autz -> autz
-                .antMatchers("v1/register/**").permitAll()
-                .antMatchers("v1/login/**").permitAll()
+        return httpSecurity
+                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
+                .authorizeRequests(autz -> autz
+                .antMatchers("/v1/register/**").permitAll()
+                .antMatchers("/v1/login/**").permitAll()
                 .anyRequest()
                 .authenticated()
         ).build();
