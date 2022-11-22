@@ -6,6 +6,7 @@ import com.example.classconectbackend.mail.MailSender;
 import com.example.classconectbackend.member.Member;
 import com.example.classconectbackend.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -17,12 +18,15 @@ public class RegisterService {
     private final MemberRepository memberRepository;
     private final MailSender mailSender;
     private final BackendProperties backendProperties;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public RegisterService(MemberRepository memberRepository, MailSender mailSender, BackendProperties backendProperties) {
+    public RegisterService(MemberRepository memberRepository, MailSender mailSender,
+                           BackendProperties backendProperties, PasswordEncoder passwordEncoder) {
         this.memberRepository = memberRepository;
         this.mailSender = mailSender;
         this.backendProperties = backendProperties;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public void registerNewMember(RegisterRequest registerRequest) {
@@ -31,7 +35,7 @@ public class RegisterService {
         var activationCode = UUID.randomUUID();
 
         newMember.setUsername(registerRequest.getUsername());
-        newMember.setPassword(registerRequest.getPassword());
+        newMember.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         newMember.setEmail(registerRequest.getEmail());
         newMember.setRole(registerRequest.getRole());
         newMember.setAuthorities(registerRequest.getRole().getAuthorities());

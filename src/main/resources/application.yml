@@ -1,3 +1,6 @@
 spring:
   profiles:
     active: local
+
+jwt:
+  secret: '_sd#a6-&*12k4j5s6_adsa[as3h21]_#@f_d&*4df-gh3d4x23df^4#d^dgdgsbh346475u837ehfcvwt34465478396868930sdhcfbt749eow'
