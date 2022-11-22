@@ -3,14 +3,19 @@ package com.example.classconectbackend.member;
 import com.example.classconectbackend.post.Post;
 import com.example.classconectbackend.team.Team;
 import com.example.classconectbackend.utils.AuthoritiesConverter;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
+
+import static java.util.Arrays.*;
 
 @Entity
 @Table(name = "member", schema = "public")
-public class Member {
+public class Member implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -87,7 +92,7 @@ public class Member {
     }
 
     public String getUsername() {
-        return username;
+        return email;
     }
 
     public void setUsername(String username) {
@@ -150,8 +155,10 @@ public class Member {
         isEnabled = enabled;
     }
 
-    public String[] getAuthorities() {
-        return authorities;
+    public List<SimpleGrantedAuthority> getAuthorities() {
+        return stream(authorities)
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
     }
 
     public void setAuthorities(String[] authorities) {
