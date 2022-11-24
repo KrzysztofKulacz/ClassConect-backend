@@ -3,6 +3,8 @@ package com.example.classconectbackend.login;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.example.classconectbackend.member.Member;
+import com.example.classconectbackend.member.MemberDto;
+import com.example.classconectbackend.utils.mappers.MemberMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -31,7 +33,7 @@ public class LoginResource {
     }
 
     @PostMapping
-    public ResponseEntity<Member> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<MemberDto> login(@RequestBody LoginRequest loginRequest) {
 
         var authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginRequest.getEmail(),
@@ -39,13 +41,13 @@ public class LoginResource {
         ));
 
         var member = (Member) authentication.getPrincipal();
-
+        var memberDto = MemberMapper.mapToDto(member);
         var jwtToken = generateToken(member);
         var headers = new HttpHeaders();
 
         headers.add("JWT-TOKEN", jwtToken);
 
-        return new ResponseEntity<>(member, headers, HttpStatus.OK);
+        return new ResponseEntity<>(memberDto, headers, HttpStatus.OK);
     }
 
     private String generateToken(Member member) {

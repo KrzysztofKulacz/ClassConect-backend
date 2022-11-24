@@ -91,6 +91,10 @@ public class Member implements UserDetails {
         this.memberId = memberId;
     }
 
+    public String getNickName(){
+        return username;
+    }
+
     public String getUsername() {
         return email;
     }
