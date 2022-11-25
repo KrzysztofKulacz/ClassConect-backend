@@ -50,7 +50,7 @@ public class RegisterService {
         return new EmailDetails(
                 "classconnect",
                 member.getEmail(),
-                "Welcome to ClassConnect " + member.getUsername() + ". In order to activate, click link: http://" +
+                "Welcome to ClassConnect " + member.getNickName() + ". In order to activate, click link: http://" +
                         backendProperties.getHost() + ":" +
                         backendProperties.getPort() + "/v1/register/activate-member?activationCode=" +
                         member.getActivationCode(),
