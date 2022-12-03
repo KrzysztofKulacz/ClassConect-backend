@@ -1,7 +1,7 @@
 CREATE TABLE member_team
 (
-    member_id UUID UNIQUE,
-    team_id   UUID UNIQUE
+    member_id UUID,
+    team_id   UUID
 );
 
 ALTER TABLE member_team
@@ -19,4 +19,4 @@ ALTER TABLE member_team
             REFERENCES classconect.public.team;
 
 ALTER TABLE classconect.public.team
-    ADD COLUMN team_admin UUID UNIQUE
+    ADD COLUMN team_admin UUID
