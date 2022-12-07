@@ -45,6 +45,7 @@ public class LoginResource {
         var jwtToken = generateToken(member);
         var headers = new HttpHeaders();
 
+
         headers.add("JWT-TOKEN", jwtToken);
 
         return new ResponseEntity<>(memberDto, headers, HttpStatus.OK);

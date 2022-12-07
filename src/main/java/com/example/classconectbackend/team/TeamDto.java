@@ -1,23 +1,23 @@
 package com.example.classconectbackend.team;
 
-import com.example.classconectbackend.member.MemberDto;
-import com.example.classconectbackend.post.PostDTO;
+import com.example.classconectbackend.member.Member;
+import com.example.classconectbackend.post.Post;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-public class TeamDTO {
+public class TeamDto {
 
     private UUID teamAdmin;
     private Subject subject;
     private String password;
     private LocalDateTime creationDate;
-    private List<PostDTO> posts;
-    private List<MemberDto> members;
+    private List<Post> posts;
+    private List<Member> members;
 
-    public TeamDTO(UUID teamAdmin, Subject subject, String password, LocalDateTime creationDate,
-                   List<PostDTO> posts, List<MemberDto> members) {
+    public TeamDto(UUID teamAdmin, Subject subject, String password, LocalDateTime creationDate,
+                   List<Post> posts, List<Member> members) {
         this.teamAdmin = teamAdmin;
         this.subject = subject;
         this.password = password;
@@ -58,19 +58,19 @@ public class TeamDTO {
         this.creationDate = creationDate;
     }
 
-    public List<PostDTO> getPosts() {
+    public List<Post> getPosts() {
         return posts;
     }
 
-    public void setPosts(List<PostDTO> posts) {
+    public void setPosts(List<Post> posts) {
         this.posts = posts;
     }
 
-    public List<MemberDto> getMembers() {
+    public List<Member> getMembers() {
         return members;
     }
 
-    public void setMembers(List<MemberDto> members) {
+    public void setMembers(List<Member> members) {
         this.members = members;
     }
 }
