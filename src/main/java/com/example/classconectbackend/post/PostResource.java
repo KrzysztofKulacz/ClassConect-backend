@@ -15,11 +15,11 @@ public class PostResource {
     }
 
     @GetMapping("/get-one")
-    public ResponseEntity<Void> getPost(@RequestParam(name = "post-id") String postId){
+    public ResponseEntity<PostDto> getPost(@RequestParam(name = "post-id") String postId){
 
-        postService.getPost(postId);
+        PostDto post = postService.getPost(postId);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(post, HttpStatus.OK);
     }
 
     @PostMapping("/create")

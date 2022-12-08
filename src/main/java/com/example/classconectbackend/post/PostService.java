@@ -21,12 +21,12 @@ public class PostService {
         this.teamRepository = teamRepository;
     }
 
-    public void getPost(String postId) {
+    public PostDto getPost(String postId) {
 
         var post = postRepository.findById(UUID.fromString(postId))
-                .orElseThrow(() -> new IllegalStateException("Team doesn't exist"));
+                .orElseThrow(() -> new IllegalStateException("Post doesn't exist"));
 
-        var postDTO = PostMapper.mapToDto(post);
+        return PostMapper.mapToDto(post);
     }
 
     public void createNewPost(PostRequest postRequest) {
@@ -35,9 +35,9 @@ public class PostService {
         var creationDate = LocalDateTime.now();
 
         var member = memberRepository.findById(postRequest.getMember())
-                .orElseThrow(() -> new IllegalStateException("member doesn't exist"));
+                .orElseThrow(() -> new IllegalStateException("Member doesn't exist"));
         var team = teamRepository.findById(postRequest.getTeam())
-                .orElseThrow(() -> new IllegalStateException("team doesn't exist"));
+                .orElseThrow(() -> new IllegalStateException("Team doesn't exist"));
 
         newPost.setTitle(postRequest.getTitle());
         newPost.setText(postRequest.getText());

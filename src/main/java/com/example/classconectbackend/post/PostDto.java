@@ -4,17 +4,18 @@ import com.example.classconectbackend.member.Member;
 import com.example.classconectbackend.team.Team;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class PostDto {
 
     private String title;
     private String text;
     private LocalDateTime creationDate;
-    private Member member;
-    private Team team;
+    private UUID member;
+    private UUID team;
 
     public PostDto(String title, String text, LocalDateTime creationDate,
-                   Member member, Team team) {
+                   UUID member, UUID team) {
         this.title = title;
         this.text = text;
         this.creationDate = creationDate;
@@ -46,19 +47,19 @@ public class PostDto {
         this.creationDate = creationDate;
     }
 
-    public Member getMember() {
+    public UUID getMember() {
         return member;
     }
 
-    public void setMember(Member member) {
+    public void setMember(UUID member) {
         this.member = member;
     }
 
-    public Team getTeam() {
+    public UUID getTeam() {
         return team;
     }
 
-    public void setTeam(Team team) {
+    public void setTeam(UUID team) {
         this.team = team;
     }
 }
