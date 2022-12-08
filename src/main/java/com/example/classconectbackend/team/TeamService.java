@@ -46,9 +46,7 @@ public class TeamService {
 
         //TODO zmienic tu members i posts w team na DTOs
 
-        var newTeamDto = TeamMapper.mapToDto(team);
-
-        return newTeamDto;
+        return TeamMapper.mapToDto(team);
 
     }
 
