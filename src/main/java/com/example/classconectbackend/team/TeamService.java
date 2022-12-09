@@ -1,11 +1,15 @@
 package com.example.classconectbackend.team;
 
+import com.example.classconectbackend.member.Member;
 import com.example.classconectbackend.member.MemberRepository;
 import com.example.classconectbackend.utils.mappers.TeamMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class TeamService {
@@ -40,14 +44,30 @@ public class TeamService {
 
     public TeamDto getTeam(String teamId) {
 
-        var uuidTeamId = UUID.fromString(teamId);
-        var team = teamRepository.findById(uuidTeamId)
+        var team = teamRepository.findById(UUID.fromString(teamId))
                 .orElseThrow(() -> new IllegalStateException("Team doesn't exist"));
 
         //TODO zmienic tu members i posts w team na DTOs
 
         return TeamMapper.mapToDto(team);
 
+    }
+
+    public List<TeamDto> getTeams(String email){
+
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalStateException("member doesn't exist"));
+
+        List<Team> teams = teamRepository.findByMemberId(member.getMemberId())
+                .orElseThrow(() -> new IllegalStateException("member doesn't exist"));
+
+        List<TeamDto> teamsDTO = teams.stream()
+                .map(TeamMapper::mapToDto)
+                .collect(Collectors.toList());
+
+        int o = 1;
+
+        return teamsDTO;
     }
 
     public void deleteTeam(String teamId) {

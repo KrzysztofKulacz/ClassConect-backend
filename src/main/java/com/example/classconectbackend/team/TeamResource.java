@@ -4,6 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/team")
 public class TeamResource {
@@ -23,7 +25,7 @@ public class TeamResource {
     }
 
     @GetMapping("/get-one")
-    public ResponseEntity<TeamDto> getTeamById(@RequestParam(name = "team-id") String teamId){
+    public ResponseEntity<TeamDto> getTeam(@RequestParam(name = "team-id") String teamId){
 
         var teamDTO = teamService.getTeam(teamId);
 
@@ -34,9 +36,11 @@ public class TeamResource {
     }
 
     @GetMapping("/get-all")
-    public ResponseEntity<Void> getAllTeams(){
+    public ResponseEntity<List<TeamDto>> getTeams(@RequestParam(name = "email") String email){
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        var teamDTO = teamService.getTeams(email);
+
+        return new ResponseEntity<>(teamDTO, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete")

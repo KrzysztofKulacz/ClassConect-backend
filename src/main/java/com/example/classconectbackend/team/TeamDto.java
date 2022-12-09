@@ -13,11 +13,11 @@ public class TeamDto {
     private Subject subject;
     private String password;
     private LocalDateTime creationDate;
-    private List<Post> posts;
-    private List<Member> members;
+    private List<UUID> posts;
+    private List<UUID> members;
 
     public TeamDto(UUID teamAdmin, Subject subject, String password, LocalDateTime creationDate,
-                   List<Post> posts, List<Member> members) {
+                   List<UUID> posts, List<UUID> members) {
         this.teamAdmin = teamAdmin;
         this.subject = subject;
         this.password = password;
@@ -58,19 +58,19 @@ public class TeamDto {
         this.creationDate = creationDate;
     }
 
-    public List<Post> getPosts() {
+    public List<UUID> getPosts() {
         return posts;
     }
 
-    public void setPosts(List<Post> posts) {
+    public void setPosts(List<UUID> posts) {
         this.posts = posts;
     }
 
-    public List<Member> getMembers() {
+    public List<UUID> getMembers() {
         return members;
     }
 
-    public void setMembers(List<Member> members) {
+    public void setMembers(List<UUID> members) {
         this.members = members;
     }
 }
