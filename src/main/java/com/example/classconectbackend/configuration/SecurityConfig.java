@@ -39,7 +39,7 @@ public class SecurityConfig {
         httpSecurity.csrf().disable();
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        return httpSecurity
+        return httpSecurity.cors().and()
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests(autz -> autz
                 .antMatchers("/v1/register/**").permitAll()

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/team")
+@RequestMapping("/v1/team")
 public class TeamResource {
 
     private final TeamService teamService;
@@ -17,11 +17,11 @@ public class TeamResource {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Void> createNewTeam(@RequestBody TeamRequest teamRequest){
+    public ResponseEntity<TeamDto> createNewTeam(@RequestBody TeamCreationRequest teamCreationRequest){
 
-        teamService.createNewTeam(teamRequest);
+        var teamDto = teamService.createNewTeam(teamCreationRequest);
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(teamDto,HttpStatus.CREATED);
     }
 
     @GetMapping("/get-one")
@@ -29,9 +29,6 @@ public class TeamResource {
 
         var teamDTO = teamService.getTeam(teamId);
 
-        //var headers = new HttpHeaders();
-        //headers.add("JWT-TOKEN", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrcnp5c3p0b2YubWNrdWxhY3pAZ21haWwuY29tIiwiUk9MRVMiOlsiVklFV19HUk9VUFMiLCJERUxFVEVfR1JPVVBTIiwiRURJVF9HUk9VUFMiXSwiaXNzIjoiQ2xhc3NDb25uZWN0In0.G813PhHjZWjLKwFTaq597dZilk0KqV8DbyiPaxPOrKs");
-        //return new ResponseEntity<>(teamDTO, headers, HttpStatus.OK);
         return new ResponseEntity<>(teamDTO, HttpStatus.OK);
     }
 
@@ -44,10 +41,10 @@ public class TeamResource {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<String> deleteTeam(@RequestParam(name = "team-id") String teamId){
+    public ResponseEntity<Void> deleteTeam(@RequestParam(name = "team-id") String teamId){
 
         teamService.deleteTeam(teamId);
 
-        return new ResponseEntity<>("Team has been deleted", HttpStatus.OK);
+        return new ResponseEntity<>( HttpStatus.OK);
     }
 }

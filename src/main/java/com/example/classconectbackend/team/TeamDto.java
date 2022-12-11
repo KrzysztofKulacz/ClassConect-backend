@@ -1,29 +1,36 @@
 package com.example.classconectbackend.team;
 
-import com.example.classconectbackend.member.Member;
-import com.example.classconectbackend.post.Post;
-
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 public class TeamDto {
 
+    private UUID teamId;
     private UUID teamAdmin;
     private Subject subject;
     private String password;
+    private String description;
+    private String teamName;
     private LocalDateTime creationDate;
-    private List<UUID> posts;
-    private List<UUID> members;
 
-    public TeamDto(UUID teamAdmin, Subject subject, String password, LocalDateTime creationDate,
-                   List<UUID> posts, List<UUID> members) {
+
+    public TeamDto(UUID teamId, UUID teamAdmin, Subject subject, String password,
+                   String description, String teamName, LocalDateTime creationDate) {
+        this.teamId = teamId;
         this.teamAdmin = teamAdmin;
         this.subject = subject;
         this.password = password;
+        this.description = description;
+        this.teamName = teamName;
         this.creationDate = creationDate;
-        this.posts = posts;
-        this.members = members;
+    }
+
+    public UUID getTeamId() {
+        return teamId;
+    }
+
+    public void setTeamId(UUID teamId) {
+        this.teamId = teamId;
     }
 
     public UUID getTeamAdmin() {
@@ -50,27 +57,27 @@ public class TeamDto {
         this.password = password;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
+    }
+
     public LocalDateTime getCreationDate() {
         return creationDate;
     }
 
     public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
-    }
-
-    public List<UUID> getPosts() {
-        return posts;
-    }
-
-    public void setPosts(List<UUID> posts) {
-        this.posts = posts;
-    }
-
-    public List<UUID> getMembers() {
-        return members;
-    }
-
-    public void setMembers(List<UUID> members) {
-        this.members = members;
     }
 }

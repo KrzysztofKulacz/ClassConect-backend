@@ -6,7 +6,6 @@ import com.example.classconectbackend.utils.mappers.TeamMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -22,24 +21,27 @@ public class TeamService {
         this.memberRepository = memberRepository;
     }
 
-    public void createNewTeam(TeamRequest teamRequest){
+    public TeamDto createNewTeam(TeamCreationRequest teamCreationRequest){
 
         var newTeam = new Team();
 
         var creationDate = LocalDateTime.now();
 
-        var member = memberRepository.findByEmail(teamRequest.getMember_email())
+        var member = memberRepository.findByEmail(teamCreationRequest.getMemberEmail())
                 .orElseThrow(() -> new IllegalStateException("member doesn't exist"));
 
         newTeam.setTeamAdmin(member.getMemberId());
-        newTeam.setSubject(teamRequest.getSubject());
-        newTeam.setPassword(teamRequest.getPassword());
+        newTeam.setSubject(teamCreationRequest.getSubject());
         newTeam.setCreationDate(creationDate);
+        newTeam.setTeamName(teamCreationRequest.getTeamName());
+        newTeam.setDescription(teamCreationRequest.getDescription());
+        newTeam.setPassword(teamCreationRequest.getPassword());
 
-        member.addTeam(newTeam);
+        newTeam.addMember(member);
 
-        var saveTeam = memberRepository.save(member);
+        var savedTeam = teamRepository.save(newTeam);
 
+        return TeamMapper.mapToDto(savedTeam);
     }
 
     public TeamDto getTeam(String teamId) {
@@ -61,13 +63,9 @@ public class TeamService {
         List<Team> teams = teamRepository.findByMemberId(member.getMemberId())
                 .orElseThrow(() -> new IllegalStateException("member doesn't exist"));
 
-        List<TeamDto> teamsDTO = teams.stream()
+        return teams.stream()
                 .map(TeamMapper::mapToDto)
                 .collect(Collectors.toList());
-
-        int o = 1;
-
-        return teamsDTO;
     }
 
     public void deleteTeam(String teamId) {

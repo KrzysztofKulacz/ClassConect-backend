@@ -32,6 +32,12 @@ public class Team {
     @Column(name = "creation_date")
     private LocalDateTime creationDate;
 
+    @Column(name = "team_name")
+    private String teamName;
+
+    @Column(name = "description")
+    private String description;
+
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Post> posts = new ArrayList<>();
 
@@ -127,6 +133,22 @@ public class Team {
 
     public void setTeamAdmin(UUID teamAdmin) {
         this.teamAdmin = teamAdmin;
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
