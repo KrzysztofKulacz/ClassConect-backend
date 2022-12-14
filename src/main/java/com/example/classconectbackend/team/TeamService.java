@@ -6,7 +6,6 @@ import com.example.classconectbackend.utils.mappers.TeamMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -28,7 +27,7 @@ public class TeamService {
 
         var creationDate = LocalDateTime.now();
 
-        var member = memberRepository.findByEmail(teamRequest.getMember_email())
+        var member = memberRepository.findByEmail(teamRequest.getMemberEmail())
                 .orElseThrow(() -> new IllegalStateException("member doesn't exist"));
 
         newTeam.setTeamAdmin(member.getMemberId());

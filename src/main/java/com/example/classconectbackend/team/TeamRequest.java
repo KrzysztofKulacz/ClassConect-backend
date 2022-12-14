@@ -4,12 +4,15 @@ public class TeamRequest {
 
     private Subject subject;
     private String password;
-    private String member_email;
+    private String memberEmail;
+
+    public TeamRequest() {
+    }
 
     public TeamRequest(Subject subject, String password, String member_email) {
         this.subject = subject;
         this.password = password;
-        this.member_email = member_email;
+        this.memberEmail = member_email;
     }
 
     public Subject getSubject() {
@@ -28,11 +31,11 @@ public class TeamRequest {
         this.password = password;
     }
 
-    public String getMember_email() {
-        return member_email;
+    public String getMemberEmail() {
+        return memberEmail;
     }
 
-    public void setMember_email(String member_email) {
-        this.member_email = member_email;
+    public void setMemberEmail(String memberEmail) {
+        this.memberEmail = memberEmail;
     }
 }

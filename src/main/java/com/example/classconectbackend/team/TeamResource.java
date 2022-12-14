@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/team")
+@RequestMapping("v1/team")
 public class TeamResource {
 
     private final TeamService teamService;
@@ -29,9 +29,6 @@ public class TeamResource {
 
         var teamDTO = teamService.getTeam(teamId);
 
-        //var headers = new HttpHeaders();
-        //headers.add("JWT-TOKEN", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrcnp5c3p0b2YubWNrdWxhY3pAZ21haWwuY29tIiwiUk9MRVMiOlsiVklFV19HUk9VUFMiLCJERUxFVEVfR1JPVVBTIiwiRURJVF9HUk9VUFMiXSwiaXNzIjoiQ2xhc3NDb25uZWN0In0.G813PhHjZWjLKwFTaq597dZilk0KqV8DbyiPaxPOrKs");
-        //return new ResponseEntity<>(teamDTO, headers, HttpStatus.OK);
         return new ResponseEntity<>(teamDTO, HttpStatus.OK);
     }
 

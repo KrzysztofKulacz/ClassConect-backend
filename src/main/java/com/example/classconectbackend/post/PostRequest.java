@@ -9,6 +9,9 @@ public class PostRequest {
     private UUID member;
     private UUID team;
 
+    public PostRequest() {
+    }
+
     public PostRequest(String title, String text, UUID member, UUID team) {
         this.title = title;
         this.text = text;
