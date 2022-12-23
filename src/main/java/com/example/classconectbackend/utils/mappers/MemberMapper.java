@@ -16,7 +16,7 @@ public class MemberMapper {
                 .map(SimpleGrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
-        return new MemberDto(member.getNickName(), member.getEmail(), member.getRole(),
+        return new MemberDto(member.getMemberId(),member.getNickName(), member.getEmail(), member.getRole(),
                 authorities, member.getCreationDate());
     }
 }

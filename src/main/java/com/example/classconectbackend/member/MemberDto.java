@@ -1,22 +1,40 @@
 package com.example.classconectbackend.member;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 public class MemberDto {
 
+    @JsonProperty("userId")
+    private UUID memberId;
     private String username;
     private String email;
     private Role role;
     private List<String> authorities;
     private LocalDateTime creationDate;
 
-    public MemberDto(String username, String email, Role role, List<String> authorities, LocalDateTime creationDate) {
+    public MemberDto() {
+    }
+
+    public MemberDto(UUID memberId, String username, String email, Role role,
+                     List<String> authorities, LocalDateTime creationDate) {
+        this.memberId = memberId;
         this.username = username;
         this.email = email;
         this.role = role;
         this.authorities = authorities;
         this.creationDate = creationDate;
+    }
+
+    public UUID getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(UUID memberId) {
+        this.memberId = memberId;
     }
 
     public String getUsername() {

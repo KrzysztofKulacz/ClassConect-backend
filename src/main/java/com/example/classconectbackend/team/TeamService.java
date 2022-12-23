@@ -1,6 +1,5 @@
 package com.example.classconectbackend.team;
 
-import com.example.classconectbackend.member.Member;
 import com.example.classconectbackend.member.MemberRepository;
 import com.example.classconectbackend.utils.mappers.TeamMapper;
 import org.springframework.stereotype.Service;
@@ -21,12 +20,10 @@ public class TeamService {
         this.memberRepository = memberRepository;
     }
 
-    public TeamDto createNewTeam(TeamCreationRequest teamCreationRequest){
+    public TeamDto createNewTeam(TeamCreationRequest teamCreationRequest) {
 
         var newTeam = new Team();
-
         var creationDate = LocalDateTime.now();
-
         var member = memberRepository.findByEmail(teamCreationRequest.getMemberEmail())
                 .orElseThrow(() -> new IllegalStateException("member doesn't exist"));
 
@@ -44,6 +41,17 @@ public class TeamService {
         return TeamMapper.mapToDto(savedTeam);
     }
 
+    public TeamDto joinToTeam(TeamJoinRequest teamJoinRequest) {
+
+        var memberJoin = memberRepository.findByEmail(teamJoinRequest.getUserMail()).get();
+        var teamJoin = teamRepository.findByTeamName(teamJoinRequest.getTeamName()).get();
+
+        memberJoin.addTeam(teamJoin);
+        memberRepository.save(memberJoin);
+
+        return TeamMapper.mapToDto(teamJoin);
+    }
+
     public TeamDto getTeam(String teamId) {
 
         var team = teamRepository.findById(UUID.fromString(teamId))
@@ -55,24 +63,25 @@ public class TeamService {
 
     }
 
-    public List<TeamDto> getTeams(String email){
+    public List<TeamDto> getMemberTeams(String email) {
 
-        Member member = memberRepository.findByEmail(email)
+        var member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalStateException("member doesn't exist"));
 
-        List<Team> teams = teamRepository.findByMemberId(member.getMemberId())
-                .orElseThrow(() -> new IllegalStateException("member doesn't exist"));
-
-        return teams.stream()
+        return member.getTeams()
+                .stream()
                 .map(TeamMapper::mapToDto)
                 .collect(Collectors.toList());
     }
 
     public void deleteTeam(String teamId) {
+        teamRepository.deleteById(UUID.fromString(teamId));
+    }
 
-        teamRepository.delete(teamRepository.findById(UUID.fromString(teamId))
-                .orElseThrow(() -> new IllegalStateException("Team doesn't exist")));
-        //TODO dodać usuwanie wszystkich postów tej grupy
-
+    public List<TeamDto> getAvailableTeams() {
+        return teamRepository.findAll()
+                .stream()
+                .map(TeamMapper::mapToDto)
+                .collect(Collectors.toList());
     }
 }

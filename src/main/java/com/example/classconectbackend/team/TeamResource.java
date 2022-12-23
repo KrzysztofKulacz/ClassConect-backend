@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -17,9 +18,17 @@ public class TeamResource {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<TeamDto> createNewTeam(@RequestBody TeamCreationRequest teamCreationRequest){
+    public ResponseEntity<TeamDto> create(@RequestBody TeamCreationRequest teamCreationRequest){
 
         var teamDto = teamService.createNewTeam(teamCreationRequest);
+
+        return new ResponseEntity<>(teamDto,HttpStatus.CREATED);
+    }
+
+    @PostMapping("/join")
+    public ResponseEntity<TeamDto> joinToTeam(@Valid @RequestBody TeamJoinRequest teamJoinRequest){
+
+        var teamDto = teamService.joinToTeam(teamJoinRequest);
 
         return new ResponseEntity<>(teamDto,HttpStatus.CREATED);
     }
@@ -32,16 +41,24 @@ public class TeamResource {
         return new ResponseEntity<>(teamDTO, HttpStatus.OK);
     }
 
-    @GetMapping("/get-all")
-    public ResponseEntity<List<TeamDto>> getTeams(@RequestParam(name = "email") String email){
+    @GetMapping("/get-member-all")
+    public ResponseEntity<List<TeamDto>> getMemberTeams(@RequestParam(name = "email") String email){
 
-        var teamDTO = teamService.getTeams(email);
+        var teamDTO = teamService.getMemberTeams(email);
+
+        return new ResponseEntity<>(teamDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/get-available-all")
+    public ResponseEntity<List<TeamDto>> getAvailableAll(){
+
+        var teamDTO = teamService.getAvailableTeams();
 
         return new ResponseEntity<>(teamDTO, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<Void> deleteTeam(@RequestParam(name = "team-id") String teamId){
+    public ResponseEntity<Void> deleteTeam(@RequestParam(name = "groupId") String teamId){
 
         teamService.deleteTeam(teamId);
 

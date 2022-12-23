@@ -1,15 +1,20 @@
 package com.example.classconectbackend.team;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class TeamDto {
 
+    @JsonProperty("groupId")
     private UUID teamId;
+    @JsonProperty("groupAdmin")
     private UUID teamAdmin;
     private Subject subject;
     private String password;
     private String description;
+    @JsonProperty("title")
     private String teamName;
     private LocalDateTime creationDate;
 
