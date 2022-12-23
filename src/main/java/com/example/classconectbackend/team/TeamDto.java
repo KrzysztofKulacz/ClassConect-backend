@@ -17,10 +17,11 @@ public class TeamDto {
     @JsonProperty("title")
     private String teamName;
     private LocalDateTime creationDate;
+    private String imageUrl;
 
 
     public TeamDto(UUID teamId, UUID teamAdmin, Subject subject, String password,
-                   String description, String teamName, LocalDateTime creationDate) {
+                   String description, String teamName, LocalDateTime creationDate, String imageUrl) {
         this.teamId = teamId;
         this.teamAdmin = teamAdmin;
         this.subject = subject;
@@ -28,6 +29,7 @@ public class TeamDto {
         this.description = description;
         this.teamName = teamName;
         this.creationDate = creationDate;
+        this.imageUrl = imageUrl;
     }
 
     public UUID getTeamId() {

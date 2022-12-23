@@ -1,6 +1,7 @@
 package com.example.classconectbackend.team;
 
 import com.example.classconectbackend.member.MemberRepository;
+import com.example.classconectbackend.utils.ImageLoader;
 import com.example.classconectbackend.utils.mappers.TeamMapper;
 import org.springframework.stereotype.Service;
 
@@ -33,13 +34,15 @@ public class TeamService {
         newTeam.setTeamName(teamCreationRequest.getTeamName());
         newTeam.setDescription(teamCreationRequest.getDescription());
         newTeam.setPassword(teamCreationRequest.getPassword());
-
+        newTeam.setImageUrl(ImageLoader.loadSubject(teamCreationRequest.getSubject()));
         newTeam.addMember(member);
 
         var savedTeam = teamRepository.save(newTeam);
 
         return TeamMapper.mapToDto(savedTeam);
     }
+
+
 
     public TeamDto joinToTeam(TeamJoinRequest teamJoinRequest) {
 
@@ -56,8 +59,6 @@ public class TeamService {
 
         var team = teamRepository.findById(UUID.fromString(teamId))
                 .orElseThrow(() -> new IllegalStateException("Team doesn't exist"));
-
-        //TODO zmienic tu members i posts w team na DTOs
 
         return TeamMapper.mapToDto(team);
 

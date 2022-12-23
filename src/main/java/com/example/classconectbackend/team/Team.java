@@ -35,6 +35,9 @@ public class Team {
     @Column(name = "team_name")
     private String teamName;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
     @Column(name = "description")
     private String description;
 
@@ -149,6 +152,14 @@ public class Team {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     @Override
