@@ -9,7 +9,7 @@ ALTER TABLE classconect.public.team
     ADD CONSTRAINT pk_team PRIMARY KEY (team_id);
 
 ALTER TABLE classconect.public.post
-    ADD COLUMN team_id UUID ;
+    ADD COLUMN team_id UUID;
 
 ALTER TABLE classconect.public.post
     ADD CONSTRAINT post_team_fk
