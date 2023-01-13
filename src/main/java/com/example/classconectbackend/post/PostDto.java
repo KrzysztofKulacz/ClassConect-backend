@@ -1,8 +1,5 @@
 package com.example.classconectbackend.post;
 
-import com.example.classconectbackend.member.Member;
-import com.example.classconectbackend.team.Team;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 

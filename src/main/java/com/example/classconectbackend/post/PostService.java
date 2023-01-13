@@ -6,7 +6,10 @@ import com.example.classconectbackend.utils.mappers.PostMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService {
@@ -27,6 +30,17 @@ public class PostService {
                 .orElseThrow(() -> new IllegalStateException("Post doesn't exist"));
 
         return PostMapper.mapToDto(post);
+    }
+
+    public List<PostDto> getPosts(String teamId){
+
+        var posts = postRepository.findAllByTeamId(UUID.fromString(teamId))
+                .orElseThrow(() -> new IllegalStateException("No posts found"));
+
+        return posts
+                .stream()
+                .map(PostMapper::mapToDto)
+                .collect(Collectors.toList());
     }
 
     public void createNewPost(PostRequest postRequest) {

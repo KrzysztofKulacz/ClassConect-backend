@@ -33,7 +33,7 @@ public class TeamResource {
         return new ResponseEntity<>(teamDto,HttpStatus.CREATED);
     }
 
-    @GetMapping("/get-one")
+    @GetMapping("/get")
     public ResponseEntity<TeamDto> getTeam(@RequestParam(name = "team-id") String teamId){
 
         var teamDTO = teamService.getTeam(teamId);
