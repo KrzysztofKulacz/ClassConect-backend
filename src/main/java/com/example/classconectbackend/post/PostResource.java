@@ -45,7 +45,7 @@ public class PostResource {
 
         postService.deletePost(postId);
 
-        return new ResponseEntity<>("Post has been deleted", HttpStatus.OK);
+        return new ResponseEntity<>("Post deleted", HttpStatus.OK);
     }
 
 }

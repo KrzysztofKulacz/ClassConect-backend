@@ -64,8 +64,6 @@ public class PostService {
     }
 
     public void deletePost(String postId) {
-
-        postRepository.delete(postRepository.findById(UUID.fromString(postId))
-                .orElseThrow(() -> new IllegalStateException("Post has been deleted")));
+        postRepository.deletePostById(UUID.fromString(postId));
     }
 }
