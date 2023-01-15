@@ -2,13 +2,12 @@ package com.example.classconectbackend.member;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
-@RequestMapping("/member")
+@RequestMapping("/v1/member")
 public class MemberResource {
 
     private final MemberService memberService;
@@ -17,12 +16,13 @@ public class MemberResource {
         this.memberService = memberService;
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<String> deleteMember(@RequestParam(name = "member-id") String memberId){
+    @GetMapping("/isUserWithinGroup")
+    public ResponseEntity<Boolean> isUserWithinGroup(@RequestParam("groupId")UUID groupId,
+                                                     @RequestParam("userId")UUID userId){
 
-        memberService.deleteMember(memberId);
+        var isUserPresent = memberService.isUserWithinGroup(groupId,userId);
 
-        return new ResponseEntity<>("Member has been deleted", HttpStatus.OK);
+        return new ResponseEntity<>(isUserPresent,HttpStatus.OK);
     }
 
 }

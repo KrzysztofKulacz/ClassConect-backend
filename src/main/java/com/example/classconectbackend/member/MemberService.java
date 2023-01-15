@@ -1,6 +1,5 @@
 package com.example.classconectbackend.member;
 
-import com.example.classconectbackend.team.TeamRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -9,16 +8,12 @@ import java.util.UUID;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    private final TeamRepository teamRepository;
 
-    public MemberService(MemberRepository memberRepository, TeamRepository teamRepository) {
+    public MemberService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
-        this.teamRepository = teamRepository;
     }
 
-    public void deleteMember(String id) {
-
-        memberRepository.delete(memberRepository.findById(UUID.fromString(id))
-                .orElseThrow(() -> new IllegalStateException("Member doesn't exist")));
+    public boolean isUserWithinGroup(UUID userId, UUID groupId) {
+        return memberRepository.isUserWithinGroup(userId, groupId);
     }
 }
