@@ -21,6 +21,6 @@ public interface PostRepository extends JpaRepository<Post, UUID> {
     Optional<List<Post>> findAllByTeamId(@Param("teamId") UUID teamId);
 
     @Modifying
-    @Query("DELETE FROM Post m WHERE m.postId = :postId")
+    @Query("DELETE FROM Post p WHERE p.postId = :postId")
     void deletePostById(@Param("postId") UUID postId);
 }

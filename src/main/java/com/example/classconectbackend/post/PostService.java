@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -24,12 +23,18 @@ public class PostService {
         this.teamRepository = teamRepository;
     }
 
-    public PostDto getPost(String postId) {
+    public PostDto editPost(PostDto postDto) {
 
-        var post = postRepository.findById(UUID.fromString(postId))
+        var post = postRepository.findById(postDto.getPostId())
                 .orElseThrow(() -> new IllegalStateException("Post doesn't exist"));
 
-        return PostMapper.mapToDto(post);
+        post.setText(postDto.getContent());
+        post.setTitle(postDto.getTitle());
+        post.setCreationDate(LocalDateTime.now());
+
+        var editedPost = postRepository.save(post);
+
+        return PostMapper.mapToDto(editedPost);
     }
 
     public List<PostDto> getPosts(String teamId){
@@ -43,7 +48,7 @@ public class PostService {
                 .collect(Collectors.toList());
     }
 
-    public void createNewPost(PostRequest postRequest) {
+    public PostDto createNewPost(PostRequest postRequest) {
 
         var newPost = new Post();
         var creationDate = LocalDateTime.now();
@@ -54,12 +59,14 @@ public class PostService {
                 .orElseThrow(() -> new IllegalStateException("Team doesn't exist"));
 
         newPost.setTitle(postRequest.getTitle());
-        newPost.setText(postRequest.getText());
+        newPost.setText(postRequest.getContent());
         newPost.setCreationDate(creationDate);
         newPost.setMember(member);
         newPost.setTeam(team);
 
-        var savePost = postRepository.save(newPost);
+        Post savedPost = postRepository.save(newPost);
+
+        return PostMapper.mapToDto(savedPost);
 
     }
 

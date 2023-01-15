@@ -1,17 +1,21 @@
 package com.example.classconectbackend.post;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.UUID;
 
 public class PostRequest {
 
     private String title;
-    private String text;
+    private String content;
+    @JsonProperty("userId")
     private UUID member;
+    @JsonProperty("groupId")
     private UUID team;
 
-    public PostRequest(String title, String text, UUID member, UUID team) {
+    public PostRequest(String title, String content, UUID member, UUID team) {
         this.title = title;
-        this.text = text;
+        this.content = content;
         this.member = member;
         this.team = team;
     }
@@ -24,12 +28,12 @@ public class PostRequest {
         this.title = title;
     }
 
-    public String getText() {
-        return text;
+    public String getContent() {
+        return content;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public UUID getMember() {

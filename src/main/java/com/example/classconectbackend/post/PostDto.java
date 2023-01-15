@@ -1,23 +1,63 @@
 package com.example.classconectbackend.post;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class PostDto {
 
-    private String title;
-    private String text;
-    private LocalDateTime creationDate;
-    private UUID member;
+    private UUID postId;
+    @JsonProperty("postAuthorId")
+    private UUID memberId;
+    @JsonProperty("groupId")
     private UUID team;
+    private String postAuthor;
+    private String title;
+    private String content;
+    private LocalDateTime creationDate;
 
-    public PostDto(String title, String text, LocalDateTime creationDate,
-                   UUID member, UUID team) {
-        this.title = title;
-        this.text = text;
-        this.creationDate = creationDate;
-        this.member = member;
+    public PostDto(UUID postId, UUID memberId, UUID team, String postAuthor,
+                   String title, String content, LocalDateTime creationDate) {
+        this.postId = postId;
+        this.memberId = memberId;
         this.team = team;
+        this.postAuthor = postAuthor;
+        this.title = title;
+        this.content = content;
+        this.creationDate = creationDate;
+    }
+
+    public UUID getPostId() {
+        return postId;
+    }
+
+    public void setPostId(UUID postId) {
+        this.postId = postId;
+    }
+
+    public UUID getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(UUID memberId) {
+        this.memberId = memberId;
+    }
+
+    public UUID getTeam() {
+        return team;
+    }
+
+    public void setTeam(UUID team) {
+        this.team = team;
+    }
+
+    public String getPostAuthor() {
+        return postAuthor;
+    }
+
+    public void setPostAuthor(String postAuthor) {
+        this.postAuthor = postAuthor;
     }
 
     public String getTitle() {
@@ -28,12 +68,12 @@ public class PostDto {
         this.title = title;
     }
 
-    public String getText() {
-        return text;
+    public String getContent() {
+        return content;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public LocalDateTime getCreationDate() {
@@ -42,21 +82,5 @@ public class PostDto {
 
     public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
-    }
-
-    public UUID getMember() {
-        return member;
-    }
-
-    public void setMember(UUID member) {
-        this.member = member;
-    }
-
-    public UUID getTeam() {
-        return team;
-    }
-
-    public void setTeam(UUID team) {
-        this.team = team;
     }
 }
