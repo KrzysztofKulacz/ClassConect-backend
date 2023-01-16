@@ -20,8 +20,11 @@ public interface MemberRepository extends JpaRepository<Member, UUID> {
     @Query("SELECT m FROM Member m WHERE m.memberId = :id")
     Optional<Member> findById(@Param("id") UUID id);
 
-    //    @Query("SELECT COUNT (m)>0 FROM Member m INNER JOIN FETCH m.teams t WHERE m.memberId = :userId AND t.teamId = :groupId")
-
-    @Query("SELECT COUNT (m)>0 FROM Member m JOIN  m.teams t WHERE m.memberId = :userId AND t.teamId = :groupId")
+    @Query("""
+            SELECT COUNT (m) > 0 FROM Member m
+            JOIN  m.teams t
+            WHERE m.memberId = :userId
+            AND t.teamId = :groupId
+            """)
     boolean isUserWithinGroup(@Param("userId") UUID userId, @Param("groupId") UUID groupId);
 }

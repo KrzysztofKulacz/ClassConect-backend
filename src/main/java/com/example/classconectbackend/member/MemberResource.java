@@ -20,8 +20,7 @@ public class MemberResource {
     public ResponseEntity<Boolean> isUserWithinGroup(@RequestParam("groupId")UUID groupId,
                                                      @RequestParam("userId")UUID userId){
 
-        var isUserPresent = memberService.isUserWithinGroup(groupId,userId);
-
+        var isUserPresent = memberService.isUserWithinGroup(userId,groupId);
         return new ResponseEntity<>(isUserPresent,HttpStatus.OK);
     }
 
