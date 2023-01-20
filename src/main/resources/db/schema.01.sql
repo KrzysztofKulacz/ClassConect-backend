@@ -15,7 +15,7 @@ CREATE TABLE post
 (
     post_id   UUID NOT NULL,
     title     VARCHAR(255),
-    text      VARCHAR(255),
+    text      text,
     member_id UUID NOT NULL
 );
 
