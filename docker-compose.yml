@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+
+  classconect-db:
+    image: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - ./src/main/resources/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      - POSTGRES_DB=classconect
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=1234
+    networks:
+      - classconnect-network
+
+  classconect-backend:
+    image: krzysztofkulacz/classconect-backend
+    ports:
+      - 8080:8080
+    depends_on:
+      - classconect-db
+    restart: on-failure:5
+    networks:
+      - classconnect-network
+
+  classconect-frontend:
+    image: krzysztofkulacz/classconect-frontend
+    ports:
+      - 80:80
+    depends_on:
+      - classconect-backend
+    restart: on-failure:5
+    networks:
+      - classconnect-network
+
+networks:
+  classconnect-network:
