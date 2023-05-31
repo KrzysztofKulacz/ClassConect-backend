@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/classconect
-    username: postgres
-    password: postgres
+    url: jdbc:postgresql:postgres://ymwoamye:P4R9VNHf4zMDzIn-c5NVJM5Cq2lfOoe7@lucky.db.elephantsql.com/ymwoamye
+    username: ymwoamye
+    password: P4R9VNHf4zMDzIn-c5NVJM5Cq2lfOoe7
   jpa:
     show-sql: true
     properties:
